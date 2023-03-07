@@ -5,7 +5,7 @@
 #   - CLIENT_CERTIFICATE_PEM      Client (device) certificate
 #   - CLIENT_PRIVATE_KEY_PEM      Client (device) private key
 
-name: Build and Run GetStarted example
+name: Build and Run
 on:
   workflow_dispatch:
   pull_request:
@@ -51,13 +51,13 @@ jobs:
           envsubst <aws_clientcredential.h.in >aws_clientcredential.h
           envsubst <aws_clientcredential_keys.h.in >aws_clientcredential_keys.h
         
-      - name: Build the example
+      - name: Build the example for AVH
         run: |
           . <(curl https://aka.ms/vcpkg-init.sh -L)
           vcpkg activate
           cbuild Demo.csolution.yml --packs --update-rte --configuration .Debug+AVH -r
 
-      - name: Run the example
+      - name: Run the example on AVH
         run: |
            echo "${{env.AVH_PATH}}" >> $GITHUB_PATH
            /opt/VHT/VHT_MPS3_Corstone_SSE-300  -f ./fvp_config.txt -a ./out/Demo/Debug/AVH/Demo.Debug+AVH.axf --stat $*
