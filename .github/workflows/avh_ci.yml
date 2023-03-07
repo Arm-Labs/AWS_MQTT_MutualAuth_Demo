@@ -1,3 +1,10 @@
+# The repository needs to provide the following secrets
+# - IoT Cloud Access - Settings and credentials required to connect an AWS IoT Thing
+#   - MQTT_BROKER_ENDPOINT        MQTT broker host name
+#   - IOT_THING_NAME              Client (device) name
+#   - CLIENT_CERTIFICATE_PEM      Client (device) certificate
+#   - CLIENT_PRIVATE_KEY_PEM      Client (device) private key
+
 name: Build and Run GetStarted example
 on:
   workflow_dispatch:
@@ -32,7 +39,18 @@ jobs:
         with:
           key: packs
           path: /home/runner/.cache/arm/packs
-
+          
+      - name: Configure AWS IoT Thing Credentials
+        env:
+          MQTT_BROKER_ENDPOINT: ${{ secrets.MQTT_BROKER_ENDPOINT }}
+          IOT_THING_NAME: ${{ secrets.IOT_THING_NAME }}
+          CLIENT_CERTIFICATE_PEM: ${{ secrets.CLIENT_CERTIFICATE_PEM }}
+          CLIENT_PRIVATE_KEY_PEM: ${{ secrets.CLIENT_PRIVATE_KEY_PEM }}
+        run: |
+          cd amazon-freertos/demos/include
+          envsubst <aws_clientcredential.h.in >aws_clientcredential.h
+          envsubst <aws_clientcredential_keys.h.in >aws_clientcredential_keys.h
+        
       - name: Build the example
         run: |
           . <(curl https://aka.ms/vcpkg-init.sh -L)
