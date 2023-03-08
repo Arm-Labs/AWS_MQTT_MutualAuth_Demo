@@ -16,14 +16,21 @@ solution:
     - pack: MDK-Packs::IoT_Socket
 
     - pack: ARM::V2M_MPS3_SSE_300_BSP@1.2.0
+      for-context: +AVH
 
     - pack: NXP::MIMXRT1052_DFP@15.0.0
+      for-context: +IP-Stack
     - pack: NXP::EVKB-IMXRT1050_BSP@15.0.0
+      for-context: +IP-Stack
     - pack: Keil::IMXRT1050-EVKB_BSP@1.1.0
+      for-context: +IP-Stack
     - pack: Keil::iMXRT105x_MWP@1.5.0
+      for-context: +IP-Stack
 
     - pack: Keil::STM32U5xx_DFP@2.0.0
+      for-context: +WiFi
     - pack: Keil::B-U585I-IOT02A_BSP@1.0.0
+      for-context: +WiFi
 
   target-types:
     - type: IP-Stack
