@@ -31,15 +31,17 @@ jobs:
       - name: Cache vcpkg
         uses: actions/cache@v3
         with:
-          key: vcpkg
-          path: /home/runner/.vcpkg
+          key: vcpkg-${{ github.run_id }}
+          restore-keys: vcpkg-
+          path: /root/.vcpkg
 
       - name: Cache packs
         uses: actions/cache@v3
         with:
-          key: packs
-          path: /home/runner/.cache/arm/packs
-          
+          key: packs-${{ github.run_id }}
+          restore-keys: packs-
+          path: /root/.cache/arm/packs
+
       - name: Configure AWS IoT Thing Credentials
         env:
           MQTT_BROKER_ENDPOINT: ${{ secrets.MQTT_BROKER_ENDPOINT }}
@@ -50,7 +52,7 @@ jobs:
           cd amazon-freertos/demos/include
           envsubst <aws_clientcredential.h.in >aws_clientcredential.h
           envsubst <aws_clientcredential_keys.h.in >aws_clientcredential_keys.h
-        
+
       - name: Build the example for AVH
         run: |
           . <(curl https://aka.ms/vcpkg-init.sh -L)
@@ -59,5 +61,5 @@ jobs:
 
       - name: Run the example on AVH
         run: |
-           export PATH=$PATH:/opt/VHT
+           export PATH=$PATH:$AVH_PATH
            ./run_example.sh
