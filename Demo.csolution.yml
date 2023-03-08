@@ -72,6 +72,3 @@ solution:
 
   projects:
     - project: ./Demo.cproject.yml
-  
-  output-dirs:
-    outdir: out/$Project$/$BuildType$/$TargetType$
