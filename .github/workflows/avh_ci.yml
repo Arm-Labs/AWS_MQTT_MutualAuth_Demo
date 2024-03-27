@@ -47,6 +47,9 @@ jobs:
           restore-keys: packs-
           path: /root/.cache/arm/packs
 
+      - name: armlm check
+        run: armlm inspect
+
       - name: Configure AWS IoT Thing Credentials
         env:
           MQTT_BROKER_ENDPOINT: ${{ secrets.MQTT_BROKER_ENDPOINT }}
