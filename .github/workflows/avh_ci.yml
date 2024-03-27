@@ -72,4 +72,5 @@ jobs:
       - name: Run the example on AVH
         run: |
            export PATH=$PATH:$AVH_PATH
+           which VHT_MPS3_Corstone_SSE-300
            ./run_example.sh
