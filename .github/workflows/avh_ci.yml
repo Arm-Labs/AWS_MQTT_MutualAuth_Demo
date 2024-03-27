@@ -22,11 +22,18 @@ env:
 jobs:
   build:
     name: Build and Run
-    runs-on: Arm-Virtual-Hardware
+    runs-on: samuel-avh-runner-16
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Install dps
+        run: |
+          apt-get update
+          apt-get install -y libpython3.9-dev
+
+          ls -la /opt/VHT
 
       - name: Cache vcpkg
         uses: actions/cache@v3
@@ -41,6 +48,11 @@ jobs:
           key: packs-${{ github.run_id }}
           restore-keys: packs-
           path: /root/.cache/arm/packs
+
+      - name: armlm check
+        run: |
+          echo $PATH
+          /opt/armcompiler/bin/armlm inspect
 
       - name: Configure AWS IoT Thing Credentials
         env:
@@ -62,4 +74,5 @@ jobs:
       - name: Run the example on AVH
         run: |
            export PATH=$PATH:$AVH_PATH
+           which VHT_MPS3_Corstone_SSE-300
            ./run_example.sh
