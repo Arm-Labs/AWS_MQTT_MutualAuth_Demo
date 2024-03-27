@@ -50,7 +50,7 @@ jobs:
       - name: armlm check
         run: |
           echo $PATH
-          /opt/armcompiler/bin/armclang/armlm inspect
+          /opt/armcompiler/bin/armlm inspect
 
       - name: Configure AWS IoT Thing Credentials
         env:
