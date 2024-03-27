@@ -48,7 +48,9 @@ jobs:
           path: /root/.cache/arm/packs
 
       - name: armlm check
-        run: armlm inspect
+        run: |
+          echo $PATH
+          armlm inspect
 
       - name: Configure AWS IoT Thing Credentials
         env:
